@@ -1,3 +1,4 @@
+var arr = []
 var IndexComponent = ReactMeteor.createClass({
     templateName: "indexComponent",
     startMeteorSubscriptions: function(){
