@@ -30,6 +30,7 @@ var DatabaseComponent = ReactMeteor.createClass({
 var TableHead = ReactMeteor.createClass({
     render: function(){
         var arr = this.props.questions.map(function(question, idx){
+            console.log(question)
             var audio_url = Audios.find(question.audio._id).fetch()[0].url()
             return <th key={question._id}>
                 <a href={audio_url} target="_blank">Question { idx + 1 }</a>
@@ -46,9 +47,9 @@ var AnswerRow = ReactMeteor.createClass({
     render: function(){
         var answer = this.props.answer
         return <tr>
-            <td>{answer.text[0] || "NA" }</td>
-            <td>{answer.text[1] || "NA" }</td>
-            <td>{answer.text[2] || "NA" }</td>
+            <td>{answer.texts[0] || "NA" }</td>
+            <td>{answer.texts[1] || "NA" }</td>
+            <td>{answer.texts[2] || "NA" }</td>
             <td>({answer.lat},{" "}{answer.lng})</td>
         </tr>
     }
