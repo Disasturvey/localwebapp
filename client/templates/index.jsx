@@ -4,6 +4,9 @@ var IndexComponent = ReactMeteor.createClass({
         Meteor.subscribe("Answers")
         Meteor.subscribe("Questions")
     },
+    componentWillUnmount: function(){
+        console.log("Un mount")
+    },
     getInitialState: function(){
         return {}
     },
