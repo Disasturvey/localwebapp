@@ -19,7 +19,7 @@ var IndexComponent = ReactMeteor.createClass({
                 <div className="row">
                     <div className="col-md-6">
                         <div className="page-header">
-                            <h1>Simple Statistics</h1>
+                            <h1>Overview</h1>
                         </div>
                     </div>
                     <div className="col-md-6">
