@@ -12,3 +12,6 @@ mizzao:bootstrap-3
 iron:router
 tomi:upload-server
 tomi:upload-jquery
+cfs:standard-packages
+cfs:gridfs
+cfs:filesystem
