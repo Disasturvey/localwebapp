@@ -151,9 +151,9 @@ var StatisticalData = ReactMeteor.createClass({
             var average = data.reduce(function(memo, val){
                 return memo + val
             }, 0) / (data.length * 1.0)
-            var standardDeviation = data.reduce(function(memo, val){
+            var standardDeviation = Math.sqrt(data.reduce(function(memo, val){
                 return memo + (val - average) * (val - average) 
-            }, 0)
+            }, 0) / (data.length * 1.0))
 
             return (
                 <tbody>

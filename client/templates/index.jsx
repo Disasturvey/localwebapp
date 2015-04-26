@@ -25,6 +25,8 @@ var IndexComponent = ReactMeteor.createClass({
                         <div className="page-header">
                             <h1>Overview</h1>
                         </div>
+                        <p>Number of questions is <b>{ this.state.questions.length }</b></p>
+                        <p>Number of respondents is <b>{ this.state.answers.length }</b></p>
                     </div>
                     <div className="col-md-6">
                         <div className="page-header">
