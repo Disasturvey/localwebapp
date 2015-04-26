@@ -65,6 +65,7 @@ var Histogram = ReactMeteor.createClass({
             ]
         }
         data.forEach(function(val){
+            if(typeof val === 'undefined' || val === null) return;
             hash[val.toString()] = hash[val.toString()] || 0
             hash[val.toString()] += 1
         }.bind(this))
@@ -122,17 +123,27 @@ var Histogram = ReactMeteor.createClass({
 var StatisticalData = ReactMeteor.createClass({
     isBinary: function(data){
         return data.every(function(val){
-            return val === 0 || val === 1
+            return val === 0 || val === 1 || typeof val === 'undefined' || val === null
         });
     },
     render: function(){
         if (this.isBinary(this.props.data)) {
             var data = this.props.data
             var negative = data.reduce(function(memo, val){
-                return memo + (val == 0)
+                if(typeof val === 'undefined' || val === null) {
+                    return memo
+                } else {
+                    return memo + (val == 0)
+                    // return memo + val
+                }
             }, 0)
             var positive = data.reduce(function(memo, val){
-                return memo + (val == 1)
+                if(typeof val === 'undefined' || val === null) {
+                    return memo
+                } else {
+                    return memo + (val == 1)
+                    // return memo + val
+                }
             }, 0)
             return (
                 <tbody>
@@ -149,10 +160,18 @@ var StatisticalData = ReactMeteor.createClass({
         } else {
             var data = this.props.data
             var average = data.reduce(function(memo, val){
-                return memo + val
+                if(typeof val === 'undefined' || val === null) {
+                    return memo
+                } else {
+                    return memo + val
+                }
             }, 0) / (data.length * 1.0)
             var standardDeviation = Math.sqrt(data.reduce(function(memo, val){
-                return memo + (val - average) * (val - average) 
+                if(typeof val === 'undefined' || val === null) {
+                    return memo
+                } else {
+                    return memo + (val - average) * (val - average)
+                }
             }, 0) / (data.length * 1.0))
 
             return (

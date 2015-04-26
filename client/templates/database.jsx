@@ -46,11 +46,23 @@ var TableHead = ReactMeteor.createClass({
 var AnswerRow = ReactMeteor.createClass({
     render: function(){
         var answer = this.props.answer
-        return <tr>
-            <td>{answer.texts[0].toString() || "NA" }</td>
-            <td>{answer.texts[1].toString() || "NA" }</td>
-            <td>{answer.texts[2].toString() || "NA" }</td>
-            <td>({answer.lat},{" "}{answer.lng})</td>
-        </tr>
+        try {
+            return <tr>
+                <td>{answer.texts[0].toString() || "NA" }</td>
+                <td>{answer.texts[1].toString() || "NA" }</td>
+                <td>{answer.texts[2].toString() || "NA" }</td>
+                <td>({answer.lat},{" "}{answer.lng})</td>
+            </tr>
+
+        } catch(e) {
+            
+            return <tr>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+                <td>NA</td>
+            </tr>
+
+        }
     }
 })
