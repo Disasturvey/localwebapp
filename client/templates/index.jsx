@@ -4,6 +4,7 @@ var IndexComponent = ReactMeteor.createClass({
     startMeteorSubscriptions: function(){
         Meteor.subscribe("Answers")
         Meteor.subscribe("Questions")
+        Meteor.subscribe("Devices")
     },
     componentWillUnmount: function(){
         console.log("Un mount")
@@ -14,7 +15,8 @@ var IndexComponent = ReactMeteor.createClass({
     getMeteorState: function() {
         return {
             answers:    Answers.find({}).fetch(),
-            questions:  Questions.find({}).fetch()
+            questions:  Questions.find({}).fetch(),
+            devices:    Devices.find({}).fetch()
         };
     },
     render: function(){
@@ -27,6 +29,11 @@ var IndexComponent = ReactMeteor.createClass({
                         </div>
                         <p>Number of questions is <b>{ this.state.questions.length }</b></p>
                         <p>Number of respondents is <b>{ this.state.answers.length }</b></p>
+                        <p>Name of the Disaster : <b>Nepal Earthquake 2015</b></p>
+                        <p>Date of Disaster : <b>25 April 2015</b></p>
+                        <p>Latitude of the disaster : <b>28.374190</b></p>
+                        <p>Longitude of the disaster : <b>84.106500</b></p>
+                        <p>Device count : <b>{ this.state.devices.length }</b></p>
                     </div>
                     <div className="col-md-6">
                         <div className="page-header">
