@@ -7,18 +7,12 @@ var DeviceNotification = ReactMeteor.createClass({
         }
     },
     startMeteorSubscriptions: function(){
-        var ctr = 0
-        var that = this
-        Meteor.subscribe("Devices", {
-            onReady: function(){
-                that.displayNewDeviceAlert()
-                this.stop()
-                console.log("devices")
-            },
-            onError: function(){ 
-                        
-            }
-        })
+        Meteor.subscribe("Devices")
+    },
+    getMeteorState: function(){
+        return {
+            devices: Devices.find({}).fetch()
+        }
     },
     displayNewDeviceAlert: function(){
         this.setState({
@@ -26,9 +20,15 @@ var DeviceNotification = ReactMeteor.createClass({
         })
     },
     render: function() {
-        if(this.state.isDisplayNotification) {
+        var arr = this.state.devices
+        if(arr.length === 0) return <div></div>
+        console.log("separator")
+        console.log(arr[arr.length - 1 ].createdAt)
+        console.log((new Date(Number(new Date()) - 10)))
+        var flag = arr[arr.length - 1 ].createdAt > (new Date(Number(new Date()) - 10000))
+        if(flag) {
             return <div className="alert alert-success">
-                A new device has been donated :)!
+                A new device has recently been donated :)!
             </div>
         } else {
             return <div></div>
