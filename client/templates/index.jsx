@@ -1,34 +1,29 @@
 var arr = []
 var DeviceNotification = ReactMeteor.createClass({
     getInitialState: function(){
+        console.log("initial state")
         return {
             isDisplayNotification: false
         }
     },
     startMeteorSubscriptions: function(){
-        Meteor.subscribe("Notifications", {
+        var ctr = 0
+        var that = this
+        Meteor.subscribe("Devices", {
             onReady: function(){
-                console.log("alert")
-                this.displayNewDeviceAlert()
-            }.bind(this)
+                that.displayNewDeviceAlert()
+                this.stop()
+                console.log("devices")
+            },
+            onError: function(){ 
+                        
+            }
         })
     },
-    _promise: null,
     displayNewDeviceAlert: function(){
-        if(this._promise)  {
-            clearTimeout(this._promise)
-            this._promise = null
-        }
-        
         this.setState({
             isDisplayNotification: true
         })
-
-        this._promise = setTimeout(function(){
-            this.setState({
-                isDisplayNotification: false
-            })
-        }.bind(this), 3000);
     },
     render: function() {
         if(this.state.isDisplayNotification) {
