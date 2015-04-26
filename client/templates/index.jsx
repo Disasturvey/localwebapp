@@ -1,4 +1,46 @@
 var arr = []
+var DeviceNotification = ReactMeteor.createClass({
+    getInitialState: function(){
+        return {
+            isDisplayNotification: false
+        }
+    },
+    startMeteorSubscriptions: function(){
+        Meteor.subscribe("Notifications", {
+            onReady: function(){
+                console.log("alert")
+                this.displayNewDeviceAlert()
+            }.bind(this)
+        })
+    },
+    _promise: null,
+    displayNewDeviceAlert: function(){
+        if(this._promise)  {
+            clearTimeout(this._promise)
+            this._promise = null
+        }
+        
+        this.setState({
+            isDisplayNotification: true
+        })
+
+        this._promise = setTimeout(function(){
+            this.setState({
+                isDisplayNotification: false
+            })
+        }.bind(this), 3000);
+    },
+    render: function() {
+        if(this.state.isDisplayNotification) {
+            return <div className="alert alert-success">
+                A new device has been donated :)!
+            </div>
+        } else {
+            return <div></div>
+        }
+    }
+})
+
 var IndexComponent = ReactMeteor.createClass({
     templateName: "indexComponent",
     startMeteorSubscriptions: function(){
@@ -34,6 +76,7 @@ var IndexComponent = ReactMeteor.createClass({
                         <p>Latitude of the disaster : <b>28.374190</b></p>
                         <p>Longitude of the disaster : <b>84.106500</b></p>
                         <p>Device count : <b>{ this.state.devices.length }</b></p>
+                        <DeviceNotification />
                     </div>
                     <div className="col-md-6">
                         <div className="page-header">
