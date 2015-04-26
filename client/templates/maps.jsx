@@ -27,6 +27,7 @@ var MapsComponent = ReactMeteor.createClass({
             }
         }
 
+        console.log("CHANGE IDX!")
         console.log(id)
         console.log(idx)
 
@@ -47,7 +48,6 @@ var MapsComponent = ReactMeteor.createClass({
                     lat:    answer.lat,
                     lng:    answer.lng
                 }
-                return answer.texts[idx] || 0
             })
         })
     },
@@ -83,9 +83,12 @@ var MapsComponent = ReactMeteor.createClass({
 })
 
 var GoogleMapComponent = ReactMeteor.createClass({
+    _heatmap: null,
     initializeMap: function(){
-        console.log("My latest state:")
-        console.log(this.props.comparisonVector)
+        if(this._heatmap) {
+            this._heatmap.setMap(null)
+            this._heatmap = null
+        }
 
         var map, mapOptions;
 
@@ -106,34 +109,29 @@ var GoogleMapComponent = ReactMeteor.createClass({
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
-
-        function eqfeed_callback(results) {
-            map.data.addGeoJson(results);
-        }
-
         map = new google.maps.Map(React.findDOMNode(this.refs.map),
           mapOptions);
 
-        map.data.addGeoJson({ 
-            "type": "FeatureCollection",
-            "features": this.props.comparisonVector.map(function(answer){
-                return {
-                    "type": "Feature",
-                    "properties": {
-                        "mag": answer.mag
-                    },
-                    "geometry": {"type": "Point", "coordinates": [answer.lng, answer.lat, 0]}
-                }
-            })
-        });
-
-        map.data.setStyle(function(feature) {
-            console.log(feature)
-            var magnitude = feature.getProperty('mag');
-            console.log(magnitude)
+        var heatmapCollection = this.props.comparisonVector.map(function(data, idx){
             return {
-                icon: getCircle(magnitude)
-            };
+                location:  new google.maps.LatLng(data.lat, data.lng),
+                weight:    data.mag / 50.0
+            }
+            // return new google.maps.LatLng(data.lat, data.lng)
+
+        }.bind(this))
+
+        console.log("collection is here")
+        console.log(heatmapCollection)
+
+        console.log("HEERRR")
+        console.log(heatmapCollection)
+
+        this._heatmap = new google.maps.visualization.HeatmapLayer({
+            data:           heatmapCollection,
+            dissipating:    false,
+            map:            map,
+            radius:         0.15
         })
     },
     componentWillReceiveProps: function(){
